@@ -44,7 +44,16 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
+    // Atualizar tarefa (U)
+    public void updateTask(Task task) {
 
+        if (task.getTitle() == null || task.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("AVISO: novo título não pode ser vazio");
+        }
 
+        task.setCreatedAt(LocalDateTime.now());
+        taskRepository.save(task);
+
+    }
 
 }
