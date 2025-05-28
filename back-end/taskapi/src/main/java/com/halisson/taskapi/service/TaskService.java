@@ -39,9 +39,12 @@ public class TaskService {
         return taskRepository.findByTitle(title);
     }
 
-    // Atualizar tarefa (U)
-
-
     // Deletar Tarefa (D)
+    public void deleteTask(String id) {
+        taskRepository.deleteById(id);
+    }
+
+
+
 
 }
