@@ -6,11 +6,17 @@ const TaskForm = ({ title, setTitle, description, setDescription, onCreate }) =>
 
     <Stack spacing={2} sx={{ mb: 3 }}>
       <TextField
-        label="nome da tarefa"
+        label="Nome da tarefa"
         variant='outlined'
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         fullWidth
+        InputProps={{
+          style: { background: "#666666" }
+        }}
+        InputLabelProps={{
+          style: { color: "#ccc" }
+        }}
       />
       <TextField
         label="Descrição"
@@ -18,6 +24,12 @@ const TaskForm = ({ title, setTitle, description, setDescription, onCreate }) =>
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         fullWidth
+        InputProps={{
+          style: { background: "#666666" }
+        }}
+        InputLabelProps={{
+          style: { color: "#ccc" }
+        }}
       />
       <Button
         variant="contained"

@@ -7,24 +7,41 @@ import axios from 'axios';
 
 const TaskManager = () => {
 
-  const [tasks, setTasks] = useState([])
+  // const [tasks, setTasks] = useState([])
+
+  // Dados mockados
+  const [tasks, setTasks] = useState([
+    { id: 1, title: "Título de uma Tarefa de Exemplo", description: "Terminar a lista 3 de engenharia de software" }
+  ])
+
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [searchTitle, setSearchTitle] = useState('')
 
-  useEffect(() => {
-    fetchTasks()
-  }, [])
+  // useEffect(() => {
+  //   fetchTasks()
+  // }, [])
 
-  const fetchTasks = async () => {
-    const res = await axios.get("/task")
-    setTasks(res.data);
-  }
+  // const fetchTasks = async () => {
+  //   try{
+  //     const res = await axios.get("/task")
+  //     setTasks(res.data);
+  //   }
+  //   catch(error){
+  //     console.log("Erro ao buscar tarefas: ", error)
+  //     setTasks([])
+  //   }
+  // }
 
   const handleCreate = async () => {
     const res = await axios.post('/task', { title, description })
     setTasks([...tasks, res.data])
-    requestFormReset()
+    resetForm()
+  }
+
+  const resetForm = () => {
+    setTitle("")
+    setDescription("")
   }
 
   return (
@@ -39,9 +56,14 @@ const TaskManager = () => {
           variant="outlined"
           value={searchTitle}
           onChange={(e) => setSearchTitle(e.target.value)}
+          InputProps={{
+            style: { background: "#666666" }
+          }}
+          InputLabelProps={{
+            style: { color: "#ccc" }
+          }}
           fullWidth
         />
-        <Button variant='contained' onclick={handleSearch}>Buscar</Button>
 
       </Stack>
 
