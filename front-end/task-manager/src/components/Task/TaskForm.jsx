@@ -1,7 +1,7 @@
 import { TextField, Button, Stack } from '@mui/material'
 
 
-const TaskForm = ({ title, setTitle, description, setDescription, onCreate }) => {
+const TaskForm = ({ title, setTitle, description, setDescription, onCreate, onUpdate, isEditing }) => {
   return (
 
     <Stack spacing={2} sx={{ mb: 3 }}>
@@ -33,9 +33,10 @@ const TaskForm = ({ title, setTitle, description, setDescription, onCreate }) =>
       />
       <Button
         variant="contained"
-        onClick={onCreate}
+        color={isEditing ? 'warning' : 'primary'}
+        onClick={isEditing ? onUpdate : onCreate}
       >
-        {'Criar'}
+        {isEditing ? 'Atualizar' : 'Criar'}
       </Button>
 
     </Stack>
