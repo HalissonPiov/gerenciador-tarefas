@@ -2,48 +2,74 @@ import { useState, useEffect } from 'react'
 import TaskForm from "./TaskForm"
 import TaskList from './TaskList';
 import { Container, Typography, TextField, Button, Stack } from '@mui/material';
-import axios from 'axios';
+import api from '../../services/api'
 
 
 const TaskManager = () => {
 
-  // const [tasks, setTasks] = useState([])
-  // Dados mockados
-  const [tasks, setTasks] = useState([
-    { id: 1, title: "Título de uma Tarefa de Exemplo", description: "Realizar 10 questões da lista 3 de engenharia de software, utilizando o livro " }
-  ])
+  const [tasks, setTasks] = useState([])
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+
   const [searchTitle, setSearchTitle] = useState('')
+
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
-  // useEffect(() => {
-  //   fetchTasks()
-  // }, [])
+  useEffect(() => {
+    fetchTasks()
+  }, [])
 
-  // const fetchTasks = async () => {
-  //   try{
-  //     const res = await axios.get("/task")
-  //     setTasks(res.data);
-  //   }
-  //   catch(error){
-  //     console.log("Erro ao buscar tarefas: ", error)
-  //     setTasks([])
-  //   }
-  // }
-
-  const handleCreate = async () => {
-    const res = await axios.post('/task', { title, description })
-    setTasks([...tasks, res.data])
-    resetForm()
+  const fetchTasks = async () => {
+    try{
+      const res = await api.get("/task")
+      setTasks(res.data);
+    }
+    catch(error){
+      console.log("Erro ao buscar tarefas: ", error)
+      setTasks([])
+    }
   }
 
+  const handleCreate = async () => {
+    try {
+      const res = await api.post('/task', { title, description });
+      setTasks([...tasks, res.data])
+      resetForm();
+    } catch (error) {
+      console.error('Erro ao criar tarefa:', error);
+    }
+  };
+
   const handleUpdate = async () => {
-    const res = await axios.put('/task/${editingId}', { title, description })
-    setTasks(tasks.map(tarefa => tarefa.id === editingId ? res.data : tarefa))
-    resetForm();
+    try {
+      const res = await api.put('/task/${editingId}', { title, description })
+      setTasks(tasks.map(tarefa => tarefa.id === editingId ? res.data : tarefa))
+      resetForm();
+    } catch (error) {
+      console.error('Erro ao atualizar tarefa:', error);
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete('/task/${id}')
+      setTasks(tasks.filter(tarefa => tarefa.id !== id))
+    }
+    catch (error) {
+      console.error('Erro ao excluir tarefa: ', error)
+    }
+  }
+
+  const handleSearch = async (title) => {
+    try {
+      const res = await api.get('/task?title=${searchTitle}')
+      setTasks(res.data)
+    }
+    catch (error) {
+      console.log('Erro ao buscar tarefa:', error)
+    }
   }
 
   const prepareEdit = (task) => {
@@ -51,16 +77,6 @@ const TaskManager = () => {
     setEditingId(task.id)
     setTitle(task.title)
     setDescription(task.description)
-  }
-
-  const handleDelete = async (id) => {
-    await axios.delete('/task/${id}')
-    setTasks(tasks.filter(tarefa => tarefa.id !== id))
-  }
-
-  const handleSearch = async () => {
-    const res = await axios.get('/task?title=${searchTitle}')
-    setTasks(res.data)
   }
 
   const resetForm = () => {
