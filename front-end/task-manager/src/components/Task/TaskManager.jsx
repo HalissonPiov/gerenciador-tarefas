@@ -17,16 +17,22 @@ const TaskManager = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
+  // const [status, setStatus] = useState('')
+
+  // const [createdAt, setCreatedAt] = useState('')
+  const [deadLineToFinish, setDeadLineToFinish] = useState('')
+
+
   useEffect(() => {
     fetchTasks()
   }, [])
 
   const fetchTasks = async () => {
-    try{
+    try {
       const res = await api.get("/task")
       setTasks(res.data);
     }
-    catch(error){
+    catch (error) {
       console.log("Erro ao buscar tarefas: ", error)
       setTasks([])
     }
@@ -44,7 +50,7 @@ const TaskManager = () => {
 
   const handleUpdate = async () => {
     try {
-      const res = await api.put('/task/${editingId}', { title, description })
+      const res = await api.put(`/task/${editingId}`, { title, description })
       setTasks(tasks.map(tarefa => tarefa.id === editingId ? res.data : tarefa))
       resetForm();
     } catch (error) {
@@ -62,9 +68,9 @@ const TaskManager = () => {
     }
   }
 
-  const handleSearch = async (title) => {
+  const handleSearch = async () => {
     try {
-      const res = await api.get('/task?title=${searchTitle}')
+      const res = await api.get(`/task?title=${searchTitle}`)
       setTasks(res.data)
     }
     catch (error) {
@@ -83,6 +89,7 @@ const TaskManager = () => {
     setTitle("")
     setDescription("")
   }
+
 
   return (
 
