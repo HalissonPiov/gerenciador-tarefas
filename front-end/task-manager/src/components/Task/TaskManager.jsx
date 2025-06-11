@@ -14,14 +14,11 @@ const TaskManager = () => {
 
   const [searchTitle, setSearchTitle] = useState('')
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false)
+  const [editingId, setEditingId] = useState(null)
 
-  // const [status, setStatus] = useState('')
-
-  // const [createdAt, setCreatedAt] = useState('')
-  const [deadLineToFinish, setDeadLineToFinish] = useState('')
-
+  const [status, setStatus] = useState('')
+  const [deadlineToFinish, setDeadlineToFinish] = useState(null)
 
   useEffect(() => {
     fetchTasks()
@@ -40,7 +37,7 @@ const TaskManager = () => {
 
   const handleCreate = async () => {
     try {
-      const res = await api.post('/task', { title, description });
+      const res = await api.post('/task', { title, description, deadlineToFinish });
       setTasks([...tasks, res.data])
       resetForm();
     } catch (error) {
@@ -50,7 +47,7 @@ const TaskManager = () => {
 
   const handleUpdate = async () => {
     try {
-      const res = await api.put(`/task/${editingId}`, { title, description })
+      const res = await api.put(`/task/${editingId}`, { title, description, status, deadlineToFinish })
       setTasks(tasks.map(tarefa => tarefa.id === editingId ? res.data : tarefa))
       resetForm();
     } catch (error) {
@@ -60,7 +57,7 @@ const TaskManager = () => {
 
   const handleDelete = async (id) => {
     try {
-      await api.delete('/task/${id}')
+      await api.delete(`/task/${id}`)
       setTasks(tasks.filter(tarefa => tarefa.id !== id))
     }
     catch (error) {
@@ -83,6 +80,8 @@ const TaskManager = () => {
     setEditingId(task.id)
     setTitle(task.title)
     setDescription(task.description)
+    setStatus(task.status)
+    setDeadlineToFinish(task.setDeadlineToFinish)
   }
 
   const resetForm = () => {
@@ -104,7 +103,7 @@ const TaskManager = () => {
           value={searchTitle}
           onChange={(e) => setSearchTitle(e.target.value)}
           InputProps={{
-            style: { background: "#666666" }
+            style: { background: "#666666", borderRadius: '8px' }
           }}
           InputLabelProps={{
             style: { color: "#ccc" }
@@ -123,6 +122,8 @@ const TaskManager = () => {
         onCreate={handleCreate}
         onUpdate={handleUpdate}
         isEditing={isEditing}
+        deadlineToFinish={deadlineToFinish}
+        setDeadlineToFinish={setDeadlineToFinish}
       />
 
       <TaskList

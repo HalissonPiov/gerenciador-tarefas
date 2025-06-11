@@ -20,7 +20,6 @@ const TaskItem = ({ task, onEdit, onDelete }) => {
 
   }
 
-
   return (
 
     <Card variant='outlined' sx={{ mb: 2 }}>
@@ -41,7 +40,6 @@ const TaskItem = ({ task, onEdit, onDelete }) => {
         </Box>
 
         <Stack direction="row" spacing={13} sx={{ mt: 2 }}>
-
 
           <Button variant='outlined' color='primary' onClick={() => onEdit(task)}> Editar </Button>
           <Button variant='outlined' color='secundary' onClick={() => onEdit(task)}> Concluir Tarefa </Button>
