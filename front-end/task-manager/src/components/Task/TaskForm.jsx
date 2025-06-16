@@ -2,6 +2,7 @@ import { TextField, Button, Stack } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 
 const TaskForm = ({ title, setTitle, description, setDescription, onCreate, onUpdate, isEditing, deadlineToFinish, setDeadlineToFinish }) => {
@@ -40,11 +41,12 @@ const TaskForm = ({ title, setTitle, description, setDescription, onCreate, onUp
           value={deadlineToFinish}
           onChange={(newValue) => setDeadlineToFinish(newValue)}
           format='DD/MM/YYYY'
+          minDate={dayjs()}
           sx={{
             backgroundColor: '#666666',
             borderRadius: '8px',
             '& .MuiInputLabel-root': {
-              color: '#ccc' // Cor do label
+              color: '#ccc' 
             }
           }}
         />

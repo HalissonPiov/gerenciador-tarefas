@@ -17,6 +17,7 @@ const TaskManager = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [editingId, setEditingId] = useState(null)
 
+
   const [status, setStatus] = useState('')
   const [deadlineToFinish, setDeadlineToFinish] = useState(null)
 
@@ -75,6 +76,22 @@ const TaskManager = () => {
     }
   }
 
+const handleCompleteTask = async (task) => {
+  try {
+    const res = await api.put(`/task/${task.id}`, {
+      title: task.title,
+      description: task.description,
+      status: "Concluída",
+      deadlineToFinish: task.deadlineToFinish
+    })
+
+    setTasks(tasks.map(t => t.id === task.id ? res.data : t))
+  }
+  catch (error) {
+    console.error("Erro ao concluir a tarefa", error)
+  }
+}
+
   const prepareEdit = (task) => {
     setIsEditing(true)
     setEditingId(task.id)
@@ -130,6 +147,7 @@ const TaskManager = () => {
         tasks={tasks}
         onEdit={prepareEdit}
         onDelete={handleDelete}
+        onComplete={handleCompleteTask}
       />
 
     </Container>

@@ -1,7 +1,7 @@
 import { Card, CardContent, Typography, Button, Stack, Box } from '@mui/material';
 
 
-const TaskItem = ({ task, onEdit, onDelete }) => {
+const TaskItem = ({ task, onEdit, onDelete, onComplete }) => {
 
   const formatTaskDate = (isoString) => {
     if (!isoString) {
@@ -20,13 +20,21 @@ const TaskItem = ({ task, onEdit, onDelete }) => {
 
   }
 
+  const cardTaskComplete = task.status === "Concluída" ? "#686868" : "#b3b3b3";
+
   return (
 
-    <Card variant='outlined' sx={{ mb: 2 }}>
+    <Card variant='outlined' sx={{
+      mb: 2,
+      backgroundColor: cardTaskComplete,
+      transition: 'background-color 0.6s ease',
+      fontWeight: 'bold',
+      fontFamily: 'Arial, sans-serif'
+    }}>
 
       <CardContent>
 
-        <Typography variant="h6">{task.title}</Typography>
+        <Typography variant="h6" sx={{fontWeight: 'bold'}}>{task.title}</Typography>
         <Typography color="text.secondary">{task.description}</Typography>
 
         <Box
@@ -34,16 +42,16 @@ const TaskItem = ({ task, onEdit, onDelete }) => {
           alignItems="center"
           sx={{ height: 90, gap: 16, mb: 2 }}
         >
-          <Typography variant='outlined'>{task.status}</Typography>
-          <Typography variant='outlined'>{"Criado em " + formatTaskDate(task.createdAt)}</Typography>
-          <Typography variant='outlined'>{"Terminar em " + formatTaskDate(task.deadlineToFinish)}</Typography>
+          <Typography variant='outlined' > {task.status}</Typography>
+          <Typography variant='outlined' >{"Criado em " + formatTaskDate(task.createdAt)} </Typography>
+          <Typography variant='outlined' >{"Terminar em " + formatTaskDate(task.deadlineToFinish)}</Typography>
         </Box>
 
         <Stack direction="row" spacing={13} sx={{ mt: 2 }}>
 
-          <Button variant='outlined' color='primary' onClick={() => onEdit(task)}> Editar </Button>
-          <Button variant='outlined' color='secundary' onClick={() => onEdit(task)}> Concluir Tarefa </Button>
-          <Button variant='outlined' color='primary' onClick={() => onDelete(task.id)}> Excluir </Button>
+          <Button variant='contained' color='primary' onClick={() => onEdit(task)}> Editar </Button>
+          <Button variant='contained' onClick={() => onComplete(task)} sx={{ mt: 1, backgroundColor:"#555555" }} > Concluir Tarefa </Button>
+          <Button variant='contained' color='primary' onClick={() => onDelete(task.id)}> Excluir </Button>
 
         </Stack>
 
