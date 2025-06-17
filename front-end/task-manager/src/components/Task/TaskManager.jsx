@@ -54,6 +54,7 @@ const TaskManager = () => {
     } catch (error) {
       console.error('Erro ao atualizar tarefa:', error);
     }
+    setIsEditing(false);
   }
 
   const handleDelete = async (id) => {
@@ -111,7 +112,7 @@ const handleCompleteTask = async (task) => {
 
     <Container maxWidth="sm" sx={{ mt: 5 }}>
 
-      <Typography variant="h4" gutterBottom>Gerenciador de Tarefas</Typography>
+      <Typography variant="h4" gutterBottom sx={{fontFamily: 'Arial, sans-serif'}} >Gerenciador de Tarefas</Typography>
 
       <Stack direction="row" spacing={2} sx={{ mb: 10 }}>
         <TextField
