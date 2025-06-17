@@ -4,7 +4,7 @@ import com.halisson.taskapi.model.Task;
 import com.halisson.taskapi.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,11 +22,9 @@ public class TaskService {
         if (task.getTitle() == null || task.getTitle().isEmpty()) {
             throw new IllegalArgumentException("AVISO: título não pode ser vazio");
         }
+
         task.setCreatedAt(LocalDateTime.now());
         task.setStatus("Em andamento");
-
-//       // Como coletar a quantidade de dias?
-        task.setDeadlineToFinish(LocalDateTime.now().plusDays(7));
 
         var id = UUID.randomUUID().toString();
         task.setId(id);
@@ -52,6 +50,7 @@ public class TaskService {
         }
 
         task.setCreatedAt(LocalDateTime.now());
+
         taskRepository.save(task);
 
     }
